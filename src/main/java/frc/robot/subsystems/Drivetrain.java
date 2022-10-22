@@ -44,6 +44,7 @@ public class Drivetrain extends SubsystemBase {
   private final WPI_TalonFX m_leftFollower = new WPI_TalonFX(Constants.CANBusIDs.kDrivetrainLeftFrontTalonFX);
   private final WPI_TalonFX m_rightFollower = new WPI_TalonFX(Constants.CANBusIDs.kDrivetrainRightFrontTalonFX);
 
+  private Supplier<Transmission.GearState> m_gearStateSupplier;
 
   // The Romi has onboard encoders that are hardcoded
   // to use DIO pins 4/5 and 6/7 for the left and right
@@ -56,7 +57,7 @@ public class Drivetrain extends SubsystemBase {
   // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
 
   // Set up the RomiGyro
-  private final RomiGyro m_gyro = new RomiGyro();
+  // private final RomiGyro m_gyro = new RomiGyro();
   private DifferentialDrive m_diffDrive;
 
   // Set up the BuiltInAccelerometer
@@ -71,6 +72,8 @@ public class Drivetrain extends SubsystemBase {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
+
+    m_gearStateSupplier = gearStateSupplier;
 
     // Motors
     configmotors();
@@ -225,32 +228,36 @@ public class Drivetrain extends SubsystemBase {
    *
    * @return The current angle of the Romi in degrees
    */
-  public double getGyroAngleX() {
-    return m_gyro.getAngleX();
-  }
+  // TODO get from pigeon
+  // public double getGyroAngleX() {
+  //   return m_gyro.getAngleX();
+  // }
 
   /**
    * Current angle of the Romi around the Y-axis.
    *
    * @return The current angle of the Romi in degrees
    */
-  public double getGyroAngleY() {
-    return m_gyro.getAngleY();
-  }
+    // TODO get from pigeon
+  // public double getGyroAngleY() {
+  //   return m_gyro.getAngleY();
+  // }
 
   /**
    * Current angle of the Romi around the Z-axis.
    *
    * @return The current angle of the Romi in degrees
    */
-  public double getGyroAngleZ() {
-    return m_gyro.getAngleZ();
-  }
+    // TODO get from pigeon
+// public double getGyroAngleZ() {
+//     return m_gyro.getAngleZ();
+//   }
 
   /** Reset the gyro. */
-  public void resetGyro() {
-    m_gyro.reset();
-  }
+   // TODO get from pigeon
+  //  public void resetGyro() {
+  //   m_gyro.reset();
+  // }
 
   @Override
   public void periodic() {
