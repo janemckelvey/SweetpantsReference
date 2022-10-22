@@ -12,6 +12,8 @@ public class TurnDegrees extends CommandBase {
   private final double m_degrees;
   private final double m_speed;
 
+    // NEW todo fix autonomous later
+
   /**
    * Creates a new TurnDegrees. This command will turn your robot for a desired rotation (in
    * degrees) and rotational speed.
@@ -61,8 +63,10 @@ public class TurnDegrees extends CommandBase {
   }
 
   private double getAverageTurningDistance() {
-    double leftDistance = Math.abs(m_drive.getLeftDistanceInch());
-    double rightDistance = Math.abs(m_drive.getRightDistanceInch());
-    return (leftDistance + rightDistance) / 2.0;
+    // double leftDistance = Math.abs(m_drive.getLeftDistanceInch());
+    // double rightDistance = Math.abs(m_drive.getRightDistanceInch());
+    // return (leftDistance + rightDistance) / 2.0;
+
+    return 2.0 ;// temp
   }
 }

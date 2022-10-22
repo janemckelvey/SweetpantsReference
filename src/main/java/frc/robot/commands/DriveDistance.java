@@ -12,6 +12,7 @@ public class DriveDistance extends CommandBase {
   private final double m_distance;
   private final double m_speed;
 
+  // NEW todo fix autonomous later
   /**
    * Creates a new DriveDistance. This command will drive your your robot for a desired distance at
    * a desired speed.
@@ -48,8 +49,9 @@ public class DriveDistance extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    // Compare distance travelled from start to desired distance
-    return Math.abs(m_drive.getAverageDistanceInch()) >= m_distance;
-  }
+   public boolean isFinished() {
+  //   // Compare distance travelled from start to desired distance
+  //   return Math.abs(m_drive.getAverageDistanceInch()) >= m_distance;
+  return false ;// temp
+   }
 }

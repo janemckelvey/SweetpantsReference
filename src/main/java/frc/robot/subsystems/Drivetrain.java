@@ -12,7 +12,10 @@ import frc.robot.sensors.RomiGyro;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // new
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 import frc.robot.Constants;
+import frc.robot.Constants.DrivetrainConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -54,14 +57,17 @@ public class Drivetrain extends SubsystemBase {
 
   // Set up the RomiGyro
   private final RomiGyro m_gyro = new RomiGyro();
-  private DifferentialDrive m_differentialDrive;
+  private DifferentialDrive m_diffDrive;
 
   // Set up the BuiltInAccelerometer
   // private final BuiltInAccelerometer m_accelerometer = new BuiltInAccelerometer();
   private WPI_PigeonIMU m_pigeon = new WPI_PigeonIMU(Constants.CANBusIDs.kPigeonIMU);
 
   /** Creates a new Drivetrain. */
-  public Drivetrain() {
+  // OLD public Drivetrain() {
+
+  public Drivetrain(Supplier<Transmission.GearState> gearStateSupplier) {
+
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
@@ -72,18 +78,18 @@ public class Drivetrain extends SubsystemBase {
     // PID values for the talons
     setWheelPIDF();
 
-    m_differentialDrive = new DifferentialDrive(m_leftLeader, m_rightLeader);   
+    m_diffDrive = new DifferentialDrive(m_leftLeader, m_rightLeader);   
 
     // Feedforward contraints
-    m_feedForward = DrivetrainConstants.kFeedForward;
+    // need ????? m_feedForward = DrivetrainConstants.kFeedForward;
         
     // Save previous wheel speeds. Start at zero.
-    m_prevSpeeds = new DifferentialDriveWheelSpeeds(0,0);
+   // need ????  m_prevSpeeds = new DifferentialDriveWheelSpeeds(0,0);
     // old , done in config motors m_rightMotor.setInverted(true);
 
     // Use inches as unit for encoder distances
-    m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
+    // need ???? m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
+   // need ????  m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
 
   // new Zero the encoders and gyro
     resetEncoders();
@@ -167,52 +173,52 @@ public class Drivetrain extends SubsystemBase {
         m_rightLeader.setInverted(InvertType.InvertMotorOutput);
     }
 
-  public int getLeftEncoderCount() {
-    return m_leftEncoder.get();
-  }
+  // public int getLeftEncoderCount() {
+  //   return m_leftEncoder.get();
+  // }
 
-  public int getRightEncoderCount() {
-    return m_rightEncoder.get();
-  }
+  // public int getRightEncoderCount() {
+  //   return m_rightEncoder.get();
+  // }
 
-  public double getLeftDistanceInch() {
-    return m_leftEncoder.getDistance();
-  }
+  // public double getLeftDistanceInch() {
+  //   return m_leftEncoder.getDistance();
+  // }
 
-  public double getRightDistanceInch() {
-    return m_rightEncoder.getDistance();
-  }
+  // public double getRightDistanceInch() {
+  //   return m_rightEncoder.getDistance();
+  // }
 
-  public double getAverageDistanceInch() {
-    return (getLeftDistanceInch() + getRightDistanceInch()) / 2.0;
-  }
+  // public double getAverageDistanceInch() {
+  //   return (getLeftDistanceInch() + getRightDistanceInch()) / 2.0;
+  // }
 
   /**
    * The acceleration in the X-axis.
    *
    * @return The acceleration of the Romi along the X-axis in Gs
    */
-  public double getAccelX() {
-    return m_accelerometer.getX();
-  }
+  // public double getAccelX() {
+  //   return m_accelerometer.getX();
+  // }
 
   /**
    * The acceleration in the Y-axis.
    *
    * @return The acceleration of the Romi along the Y-axis in Gs
    */
-  public double getAccelY() {
-    return m_accelerometer.getY();
-  }
+  // public double getAccelY() {
+  //   return m_accelerometer.getY();
+  // }
 
   /**
    * The acceleration in the Z-axis.
    *
    * @return The acceleration of the Romi along the Z-axis in Gs
    */
-  public double getAccelZ() {
-    return m_accelerometer.getZ();
-  }
+  // public double getAccelZ() {
+  //   return m_accelerometer.getZ();
+  // }
 
   /**
    * Current angle of the Romi around the X-axis.

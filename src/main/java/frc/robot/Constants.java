@@ -4,6 +4,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N2;
+import edu.wpi.first.math.system.LinearSystem;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -37,4 +47,69 @@ public static final class CANBusIDs {
    //Sensors
    public static final int kPigeonIMU = 3;
    }  
+
+   public static final class DrivetrainConstants{
+
+    // kS (static friction), kV (velocity), and kA (acceleration)
+    public static final double ksVolts = 0.6024;
+    public static final double kvVoltSecondsPerMeter = 0.21907;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.0096252;
+
+    // Feedforward contraints          
+   public static final SimpleMotorFeedforward kFeedForward = 
+   new SimpleMotorFeedforward(ksVolts, kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter);
+
+    public static final double kTrackWidthMeters = 0.7; //Placeholder
+    public static final DifferentialDriveKinematics kDriveKinematics =
+        new DifferentialDriveKinematics(kTrackWidthMeters);
+
+    public static final double k_MaxVolts = 10;    
+    public static final DifferentialDriveVoltageConstraint kAutoVoltageConstraint =
+        new DifferentialDriveVoltageConstraint(
+            kFeedForward,
+            kDriveKinematics,
+            k_MaxVolts);    
+
+    public static final boolean kGyroReversed = true;
+
+    public static final int kEncoderCPR = 2048;
+    public static final double kWheelDiameterMeters = 0.1015;
+
+    public static final double kEncoderDistancePerPulse =
+        // Assumes the encoders are directly mounted on the wheel shafts
+        (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
+
+    public static final double kUnitsPerRevolution = 2048;
+
+    //TODO change to correct values
+    public static final double kHighGearRatio = 2.91;
+    public static final double kLowGearRatio = 9.08;
+
+    public static final double kMaxSpeedMetersPerSecond = 2.0;
+    public static final double kMaxAccelMetersPerSecondSquared = 2.0;
+
+    public static final TrapezoidProfile.Constraints kTrapezoidProfileConstraints =
+        new TrapezoidProfile.Constraints(kMaxSpeedMetersPerSecond, kMaxAccelMetersPerSecondSquared);
+    
+    // PID Constants
+    // The WPILib feedforward has kS (static friction), kV (velocity), and kA (acceleration) terms 
+    // whereas the Talon SRX / Spark MAX kF is only a kV (velocity) feedforward.
+    //                                                  kp,  ki, kd,  kf, iz,  peak output
+    public static final Gains kGainsProfiled = new Gains(0.16,  0,   0,   0,   0,  1.00);   
+
+    /**
+     * PID Gains may have to be adjusted based on the responsiveness of control loop.
+     * kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
+     * Not all set of Gains are used in this project and may be removed as desired.
+     * 
+     * 	                                    			  kP   kI   kD   kF               Iz    PeakOut */
+    public final static Gains kGainsDistance = new Gains( 0.1, 0.0,  0.0, 0.0,            100,  0.50 );
+    public final static Gains kGainsTurning = new Gains( 0.10, 0.0,  0.0, 0.0,            200,  1.00 );
+    public final static Gains kGainsVelocity = new Gains( 0.1, 0.001, 5, 1023.0/20660.0,  300,  1.00);
+    public final static Gains kGainsMotProf = new Gains( 1.0, 0.0,  0.0, 1023.0/20660.0,  400,  1.00 );
+
+    //public static final double kDistanceToleranceMeters = 0.1;
+    //public static final double kVelocityToleranceMeters = 0.1;
+}
+
 }
