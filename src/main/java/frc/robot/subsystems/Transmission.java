@@ -47,10 +47,12 @@ public class Transmission extends SubsystemBase {
   }
 
   public void setHigh(){
+    System.out.println("m_transmission::setLow!!!!");
     setGearState(GearState.HIGH);
   }
 
   public void setLow(){
+    System.out.println("m_transmission::setHigh!!!!");
     setGearState(GearState.LOW);
   }
 
