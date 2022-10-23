@@ -20,6 +20,11 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 // new
 import frc.robot.subsystems.Transmission;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -57,6 +62,36 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    configureDrivetrain();
+
+  }
+
+   /**
+   * Configure Drivetrain
+   */
+  public void configureDrivetrain() {
+    // Configure default commands
+    // Set the default drive command to split-stick arcade drive
+    // OLD m_drivetrain.setDefaultCommand(
+        // A split-stick arcade command, with forward/backward controlled by the left
+        // hand, and turning controlled by the right.
+      // OLD    new RunCommand(() -> m_drivetrain.drive(m_driverOI.getMoveSupplier(), m_driverOI.getRotateSupplier()),
+          // OLD    m_drivetrain));
+
+    // Configure button commands
+    getShiftLowButton().whenPressed(new InstantCommand(m_transmission::setLow, m_transmission));
+    getShiftHighButton().whenPressed(new InstantCommand(m_transmission::setHigh, m_transmission));
+    // m_operatorOI.getPrintButton().whenPressed(new PrintCommand("Print from Operator"));
+    //   m_driverOI.getResetEncodersButton().whenPressed(new InstantCommand(m_drivetrain::resetEncoders, m_drivetrain));
+
+    // Configure Shuffleboard commands
+    // m_autoChooser.setDefaultOption("Calibrate Robot", new RunRamseteTrajectory(m_drivetrain, calibrateTrajectory()));
+    // m_autoChooser.addOption("Red 1", new RunRamseteTrajectory(m_drivetrain, loadTrajectory("Red1")));
+    // m_autoChooser.addOption("Figure 8", new RunRamseteTrajectory(m_drivetrain, loadTrajectory("Figure8")));
+    // m_autoChooser.addOption("Straight", new RunRamseteTrajectory(m_drivetrain, loadTrajectory("Straight")));
+    // m_autoChooser.addOption("Navigate Cones", new RunRamseteTrajectory(m_drivetrain, navigateConesTrajectory()));
+    // m_autoChooser.addOption("Drive Distance PID", new DriveDistanceProfiled(3.0, m_drivetrain));
+    // m_autoChooser.addOption("Reverse Distance PID", new DriveDistanceProfiled(-3.0, m_drivetrain));
   }
 
   /**
@@ -81,6 +116,14 @@ public class RobotContainer {
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
     SmartDashboard.putData(m_chooser);
   }
+
+  public Button getShiftLowButton() {
+    return new JoystickButton(m_controller, XboxController.Button.kX.value);
+}
+  public Button getShiftHighButton() {
+    return new JoystickButton(m_controller, XboxController.Button.kY.value);
+  }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
