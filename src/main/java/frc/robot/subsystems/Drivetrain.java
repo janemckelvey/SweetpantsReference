@@ -176,6 +176,27 @@ public class Drivetrain extends SubsystemBase {
         m_rightLeader.setInverted(InvertType.InvertMotorOutput);
     }
 
+    public void setDriveTrainVoltage(double leftVolts, double rightVolts) {
+      m_leftLeader.set(ControlMode.PercentOutput, leftVolts/12);
+      m_rightLeader.set(ControlMode.PercentOutput, rightVolts/12);
+      m_diffDrive.feed();
+  }
+  public double motorRotationsToWheelRotations(double motorRotations, Transmission.GearState gearState) {
+    if (gearState == Transmission.GearState.HIGH) {
+        return motorRotations/(DrivetrainConstants.kEncoderCPR * DrivetrainConstants.kHighGearRatio);
+    }
+    return motorRotations/(DrivetrainConstants.kEncoderCPR * DrivetrainConstants.kLowGearRatio);
+}
+
+public double wheelRotationsToMeters(double wheelRotations) {
+  return DrivetrainConstants.kWheelDiameterMeters * Math.PI * wheelRotations;
+}
+   // Encoder ticks to meters
+   public double encoderTicksToMeters(double encoderTicks) {
+    var gearState = m_gearStateSupplier.get();
+    double wheelRotations = motorRotationsToWheelRotations(encoderTicks, gearState);
+    return wheelRotationsToMeters(wheelRotations);
+}
   // public int getLeftEncoderCount() {
   //   return m_leftEncoder.get();
   // }
@@ -184,9 +205,33 @@ public class Drivetrain extends SubsystemBase {
   //   return m_rightEncoder.get();
   // }
 
-  // public double getLeftDistanceInch() {
-  //   return m_leftEncoder.getDistance();
+  //
+  //public double getLeftDistanceInch() {
+    // return m_leftEncoder.getDistance();
   // }
+
+   public double getLeftDistanceMeters() {
+    return encoderTicksToMeters(m_leftLeader.getSelectedSensorPosition());
+}
+
+public double getRightDistanceMeters() {        
+    return encoderTicksToMeters(m_rightLeader.getSelectedSensorPosition());
+}
+public double getLeftDistanceInch() {
+  return getLeftDistanceMeters() * 39.3701;
+}
+
+public double getRightDistanceInch() {        
+  return getRightDistanceMeters() * 39.3701;
+}
+
+public double getAvgDistanceMeters(){
+    return (getLeftDistanceMeters() + getRightDistanceMeters()) /2;
+}
+public double getAverageDistanceInch() {
+  return getAvgDistanceMeters() * 39.3701;
+}
+
 
   // public double getRightDistanceInch() {
   //   return m_rightEncoder.getDistance();
