@@ -232,6 +232,15 @@ public double getAverageDistanceInch() {
   return getAvgDistanceMeters() * 39.3701;
 }
 
+public void drive(DoubleSupplier move, DoubleSupplier rotate){
+  drive(move.getAsDouble(), rotate.getAsDouble(), true);
+}
+
+public void drive(double move, double rotate, boolean squaredInputs){
+ // SmartDashboard.putNumber("Output", rotate);
+  m_diffDrive.arcadeDrive(move, rotate, squaredInputs);
+}
+
 
   // public double getRightDistanceInch() {
   //   return m_rightEncoder.getDistance();

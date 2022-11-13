@@ -42,7 +42,7 @@ public class RobotContainer {
   private final Drivetrain m_drivetrain = new Drivetrain(m_transmission::getGearState);
 
   // Assumes a gamepad plugged into channnel 0
-  private final Joystick m_controller = new Joystick(0);
+  private final XboxController m_controller = new XboxController(0);
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -103,7 +103,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
-    m_drivetrain.setDefaultCommand(getArcadeDriveCommand());
+    m_drivetrain.setDefaultCommand(
+      // A split-stick arcade command, with forward/backward controlled by the left
+      // hand, and turning controlled by the right.
+      new RunCommand(() -> m_drivetrain.drive(  () -> m_controller.getLeftY(), () -> m_controller.getRightX()),
+          m_drivetrain));
 
     // Example of how to use the onboard IO
     // Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);
