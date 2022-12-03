@@ -92,14 +92,6 @@ public class RobotContainer {
     SmartDashboard.putData(m_chooser);
   }
 
-  public Button getShiftLowButton() {
-    return new JoystickButton(m_driverController, XboxController.Button.kX.value);
-}
-  public Button getShiftHighButton() {
-    return new JoystickButton(m_driverController, XboxController.Button.kY.value);
-  }
-
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
