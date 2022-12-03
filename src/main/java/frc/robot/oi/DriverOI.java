@@ -20,7 +20,6 @@ public class DriverOI {
         return new JoystickButton(m_controller, XboxController.Button.kX.value);
     }
 
-
     public Button getShiftHighButton() {
         return new JoystickButton(m_controller, XboxController.Button.kY.value);
     }
