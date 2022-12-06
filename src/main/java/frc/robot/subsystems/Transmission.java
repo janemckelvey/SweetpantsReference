@@ -12,7 +12,7 @@ import frc.robot.Constants;
  */
 
 public class Transmission extends SubsystemBase {
-  // private Solenoid m_shiftPiston;
+  private Solenoid m_shiftPiston;
   private Solenoid m_shiftPistonHigh;
   private Solenoid m_shiftPistonLow;
   private GearState m_gearState;
@@ -23,9 +23,9 @@ public class Transmission extends SubsystemBase {
 
   public Transmission() {
 
-    // m_shiftPiston = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PneumaticIDs.kDrivetrainShiftSolenoid);
-    m_shiftPistonHigh = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PneumaticIDs.kDrivetrainShiftSolenoidHigh);
-    m_shiftPistonLow = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PneumaticIDs.kDrivetrainShiftSolenoidLow);
+    // m_shiftPiston = new Solenoid(PneumaticsModuleType.REVPH, Constants.PneumaticIDs.kDrivetrainShiftSolenoid);
+    m_shiftPistonHigh = new Solenoid(PneumaticsModuleType.REVPH, Constants.PneumaticIDs.kDrivetrainShiftSolenoidHigh);
+    m_shiftPistonLow = new Solenoid(PneumaticsModuleType.REVPH, Constants.PneumaticIDs.kDrivetrainShiftSolenoidLow);
 
     m_gearState = GearState.LOW;
 
@@ -47,7 +47,6 @@ public class Transmission extends SubsystemBase {
   }
 
   public void setHigh(){
-    System.out.println("m_transmission::setLow!!!!");
     setGearState(GearState.HIGH);
   }
 
@@ -65,7 +64,7 @@ public class Transmission extends SubsystemBase {
   }
 
   private void setTrue() {
-   // m_shiftPiston.set(true);
+    // m_shiftPiston.set(true);
     m_shiftPistonHigh.set(true);
     m_shiftPistonLow.set(false);
   }
@@ -79,5 +78,6 @@ public class Transmission extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putString("Gear State", m_gearState.toString());
+    // SmartDashboard.putBoolean("Gearstate", m_shiftPiston.isDisabled());
   }
 }
