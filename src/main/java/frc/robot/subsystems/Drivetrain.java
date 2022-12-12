@@ -111,16 +111,19 @@ public class Drivetrain extends SubsystemBase {
           fx.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor); 
       }
       
-      //Setting followers, followers don't automatically followtLeader's inverts so you must set the invert type to FollotLeader
-      m_leftFollower.follow(m_leftLeader, FollowerType.PercentOutput);
-      m_leftFollower.setInverted(InvertType.FollowMaster);
-      m_rightFollower.follow(m_rightLeader, FollowerType.PercentOutput);
-      m_rightFollower.setInverted(InvertType.FollowMaster);
-
-      m_rightLeader.setInverted(InvertType.InvertMotorOutput);
-      // New Talon FX inverts
+      // New Talon FX inverts. Would replace InvertType.InvertMotorOutput
       // m_leftLeader.setInverted(TalonFXInvertType.CounterClockwise);
       // m_rightLeader.setInverted(TalonFXInvertType.Clockwise);
+
+      // Setting followers, followers don't automatically follow the Leader's inverts 
+      // so you must set the invert type to Follow the Leader      
+      m_leftFollower.setInverted(InvertType.FollowMaster);
+      m_rightFollower.setInverted(InvertType.FollowMaster);
+
+      m_leftFollower.follow(m_leftLeader, FollowerType.PercentOutput);
+      m_rightFollower.follow(m_rightLeader, FollowerType.PercentOutput);
+
+      m_rightLeader.setInverted(InvertType.InvertMotorOutput);
   }
 
   // -----------------------------------------------------------
