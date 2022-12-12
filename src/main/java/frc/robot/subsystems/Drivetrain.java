@@ -118,6 +118,9 @@ public class Drivetrain extends SubsystemBase {
       m_rightFollower.setInverted(InvertType.FollowMaster);
 
       m_rightLeader.setInverted(InvertType.InvertMotorOutput);
+      // New Talon FX inverts
+      // m_leftLeader.setInverted(TalonFXInvertType.CounterClockwise);
+      // m_rightLeader.setInverted(TalonFXInvertType.Clockwise);
   }
 
   // -----------------------------------------------------------
