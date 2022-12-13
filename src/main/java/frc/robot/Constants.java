@@ -77,8 +77,8 @@ public static final class CANBusIDs {
     public static final double kUnitsPerRevolution = 2048;
 
     //TODO change to correct values
-    public static final double kHighGearRatio = 2.91;
-    public static final double kLowGearRatio = 9.08;
+    public static final double kHighGearRatio = 10.71;
+    public static final double kLowGearRatio = 5;
 
     public static final double kMaxSpeedMetersPerSecond = 2.0;
     public static final double kMaxAccelMetersPerSecondSquared = 2.0;
